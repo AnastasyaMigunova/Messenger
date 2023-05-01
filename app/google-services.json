@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "108659653989",
+    "firebase_url": "https://englishmessenger-262a1-default-rtdb.firebaseio.com",
+    "project_id": "englishmessenger-262a1",
+    "storage_bucket": "englishmessenger-262a1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:108659653989:android:54b093d84367a4f9ba358c",
+        "android_client_info": {
+          "package_name": "com.example.englishmessenger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "108659653989-bqhq1t1dolj2d4dd8nvf6iu75kgr4fl0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcZ98BG5hImCZ8qBZG_RFmBSDHPch1tgA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "108659653989-bqhq1t1dolj2d4dd8nvf6iu75kgr4fl0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "108659653989-odpv8eb16vhij6estnqpqncrrlrbhhfi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "DV.englishMessenger"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
