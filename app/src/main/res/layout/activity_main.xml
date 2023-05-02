@@ -12,7 +12,7 @@
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="180dp"
         android:layout_marginEnd="101dp"
         android:layout_marginBottom="30dp"
         android:background="@drawable/rounded_edittext_register_login"
@@ -85,20 +85,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/RegisterButton"
         app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/Photo_Button"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="160dp"
-        android:layout_marginBottom="40dp"
-        android:background="@drawable/rounded_select_photo_button"
-        android:text="Select Photo"
-        app:layout_constraintBottom_toTopOf="@+id/PersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

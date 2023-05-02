@@ -23,14 +23,6 @@ class RegisterActivity : AppCompatActivity() {
             val intent = Intent(this, LoginAcvtivity::class.java)
             startActivity(intent)
         }
-
-        Photo_Button.setOnClickListener {
-            Log.d("RegisterActivity", "Try to show photo selector")
-
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            startActivityForResult(intent, 0)
-        }
     }
 
     private fun performRegister() {

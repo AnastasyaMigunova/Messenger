@@ -20,10 +20,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginAcvtivity">
-
-        </activity>
-
+        <activity android:name=".LoginAcvtivity"></activity>
+        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".TestActivity"></activity>
+        <activity android:name=".TrainingActivity"></activity>
     </application>
 
 </manifest>
