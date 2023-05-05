@@ -11,9 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EnglishMessenger"
         tools:targetApi="31">
-        <activity
-            android:name=".LatestMessagesActivity"
-            android:exported="false" />
+        <activity android:name=".LatestMessagesActivity" />
         <activity
             android:name=".RegisterActivity"
             android:exported="true">
@@ -27,7 +25,9 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".TestActivity" />
         <activity android:name=".TrainingActivity" />
-        <activity android:name=".LatestMessagesActivity" />
+        <activity android:name=".NewMessageActivity"/>
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LatestMessagesActivity"/>
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -18,14 +19,15 @@ class RegisterActivity : AppCompatActivity() {
 
         RegisterButton.setOnClickListener {
             performRegister()
-            val intent1 = Intent(this,ProfileActivity::class.java)
-            startActivity(intent1)
+            val intent = Intent(this, ProfileActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(intent)
         }
         AlreadyRegister.setOnClickListener {
             Log.d("RegisterActivity", "Try to show login activity")
 
-            val intent2 = Intent(this, LoginAcvtivity::class.java)
-            startActivity(intent2)
+            val intent = Intent(this, LoginAcvtivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -62,6 +64,9 @@ class RegisterActivity : AppCompatActivity() {
         ref.setValue(user)
             .addOnSuccessListener {
                 Log.d("RegisterActivity", "Finally we saved the user to Firebase Database")
+            }
+            .addOnFailureListener {
+                Log.d("RegisterActivity", "Failed to set value to database: ${it.message}")
             }
     }
 }
