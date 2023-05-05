@@ -12,6 +12,9 @@
         android:theme="@style/Theme.EnglishMessenger"
         tools:targetApi="31">
         <activity
+            android:name=".ChatLogActivity"
+            android:exported="false" />
+        <activity
             android:name=".LatestMessagesActivity"
             android:exported="false" />
         <activity
@@ -27,7 +30,6 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".TestActivity" />
         <activity android:name=".TrainingActivity" />
-        <activity android:name=".LatestMessagesActivity" />
     </application>
 
 </manifest>
