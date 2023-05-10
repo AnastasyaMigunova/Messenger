@@ -23,9 +23,9 @@ class LoginAcvtivity: AppCompatActivity() {
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
 //                .addOnCompleteListener()
 //                .add
-
-                val intent = Intent(this,ProfileActivity::class.java)
-                startActivity(intent)
+            val intent = Intent(this, ProfileActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(intent)
         }
 
         SignIn_back.setOnClickListener {
