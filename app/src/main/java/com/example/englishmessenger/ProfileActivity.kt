@@ -33,5 +33,11 @@ class ProfileActivity: AppCompatActivity() {
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             startActivity(intent)
         }
+
+        dictionary_button.setOnClickListener {
+            val intent = Intent(this, DictionaryActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 }
