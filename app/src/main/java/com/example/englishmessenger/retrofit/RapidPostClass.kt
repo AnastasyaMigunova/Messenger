@@ -1,8 +1,9 @@
 package com.example.englishmessenger.retrofit
 
-
 data class RapidPostClass (
-    val source_language: String,
-    val target_language: String,
-    val text: String
+    val data: MainData
+)
+
+data class MainData (
+    val translatedText: String
 )

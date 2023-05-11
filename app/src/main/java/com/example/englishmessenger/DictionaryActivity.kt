@@ -40,10 +40,9 @@ class DictionaryActivity : AppCompatActivity() {
 
         binding.buttonTranslate.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
-                //val NewText = rapidApi.transText("en", "ru", "Hello World")
-                val NewText = rapidApi.transText("en", "it", binding.editTextEng.text.toString())
+                val NewText = rapidApi.transText("en", "ru", binding.editTextEng.text.toString())
                 runOnUiThread {
-                    textViewRus.text = NewText.text
+                    textViewRus.text = NewText.data.translatedText
                 }
             }
         }
