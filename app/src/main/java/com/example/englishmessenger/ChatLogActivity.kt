@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.GroupieAdapter;
+import com.xwray.groupie.Item
+import kotlinx.android.synthetic.main.activity_chat_log.*
 
 
 class ChatLogActivity : AppCompatActivity() {
@@ -14,7 +17,23 @@ class ChatLogActivity : AppCompatActivity() {
 
         supportActionBar?.title = "Chat Log"
 
-        //val adapter = GroupieAdapter<ViewHolder>()
+        val adapter = GroupAdapter<GroupieViewHolder>()
 
+        adapter.add(ChatItem())
+        adapter.add(ChatItem())
+        adapter.add(ChatItem())
+        adapter.add(ChatItem())
+
+        recyclerview_chat_log.adapter = adapter
+
+    }
+}
+
+class ChatItem: Item<GroupieViewHolder>() {
+    override fun bind(viewHolder: GroupieViewHolder, position: Int) {
+
+    }
+    override fun getLayout(): Int {
+        return R.layout.chat_from_row
     }
 }
