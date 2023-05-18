@@ -4,12 +4,14 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.activity_main.*
 
 class RegisterActivity : AppCompatActivity() {
@@ -58,7 +60,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun saveUserToFirebaseDatabase() {
         val uid = FirebaseAuth.getInstance().uid ?: ""
-        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+        val ref = FirebaseDatabase.getInstance().getReference("/usersKotlin/$uid")
 
         val user = User(uid, PersonName.text.toString())
         ref.setValue(user)
@@ -71,4 +73,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 }
 
-class User(val uid: String, val username: String)
+@Parcelize
+class User(val uid: String, val username: String): Parcelable{
+    constructor() : this("", "")
+}
