@@ -48,7 +48,7 @@ class ChatLogActivity : AppCompatActivity() {
 
     private fun listenForMessages(){
         val fromId = FirebaseAuth.getInstance().uid
-        val toId = toUser//////////////////////<--------------------------------------------
+        val toId = toUser?.uid
         val ref = FirebaseDatabase.getInstance().getReference("/user-messageKotlin/$fromId/$toId")
 
         ref.addChildEventListener(object : ChildEventListener {
@@ -102,11 +102,26 @@ class ChatLogActivity : AppCompatActivity() {
         val reference = FirebaseDatabase.getInstance().getReference("/user-messageKotlin/$fromId/$toId")
             .push()
 
+        val toReference = FirebaseDatabase.getInstance().getReference("/user-messageKotlin/$toId/$fromId")
+            .push()
+
         val chatMessage = ChatMessage(reference.key!!, text, fromId, toId, System.currentTimeMillis() / 1000)
         reference.setValue(chatMessage)
             .addOnSuccessListener {
                 Log.d(TAG, "Saved our chat message: ${reference.key}")
+                edittext_chat_log.text.clear()
+                recyclerview_chat_log.scrollToPosition(adapter.itemCount - 1)
             }
+
+        toReference.setValue(chatMessage)
+
+        val latestMessageRef = FirebaseDatabase.getInstance()
+            .getReference("/latest-kotlinMessages/$fromId/$toId")
+        latestMessageRef.setValue(chatMessage)
+
+        val latestMessageToRef = FirebaseDatabase.getInstance()
+            .getReference("/latest-kotlinMessages/$toId/$fromId")
+        latestMessageToRef.setValue(chatMessage)
     }
 
 }
