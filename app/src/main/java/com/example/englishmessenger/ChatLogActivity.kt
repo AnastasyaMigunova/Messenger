@@ -24,6 +24,8 @@ class ChatLogActivity : AppCompatActivity() {
     }
 
     val adapter = GroupAdapter<GroupieViewHolder>()
+
+    var toUser: User? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_log)
@@ -31,8 +33,8 @@ class ChatLogActivity : AppCompatActivity() {
         recyclerview_chat_log.adapter = adapter
 
         //val username = intent.getStringExtra(NewMessageActivity.USER_KEY)
-        val user = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
-        supportActionBar?.title =  user?.username
+        toUser = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
+        supportActionBar?.title =  toUser?.username
 
         //setupDummyData()
         listenForMessages()
@@ -45,7 +47,9 @@ class ChatLogActivity : AppCompatActivity() {
     }
 
     private fun listenForMessages(){
-        val ref = FirebaseDatabase.getInstance().getReference("/messageKotlin")
+        val fromId = FirebaseAuth.getInstance().uid
+        val toId = toUser//////////////////////<--------------------------------------------
+        val ref = FirebaseDatabase.getInstance().getReference("/user-messageKotlin/$fromId/$toId")
 
         ref.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
@@ -55,9 +59,10 @@ class ChatLogActivity : AppCompatActivity() {
                     Log.d(TAG, chatMessage.text)
 
                     if (chatMessage.fromId == FirebaseAuth.getInstance().uid){
-                        adapter.add(ChatFromItem(chatMessage.text))
+                        val currentUser= LatestMessagesActivity.currentUser ?: return
+                        adapter.add(ChatFromItem(chatMessage.text, currentUser))
                     } else {
-                        adapter.add(ChatToItem(chatMessage.text))
+                        adapter.add(ChatToItem(chatMessage.text, toUser!!))
                     }
                 }
             }
@@ -93,7 +98,9 @@ class ChatLogActivity : AppCompatActivity() {
 
         if(fromId == null) return
 
-        val reference = FirebaseDatabase.getInstance().getReference("/messageKotlin").push()
+        //val reference = FirebaseDatabase.getInstance().getReference("/messageKotlin").push()
+        val reference = FirebaseDatabase.getInstance().getReference("/user-messageKotlin/$fromId/$toId")
+            .push()
 
         val chatMessage = ChatMessage(reference.key!!, text, fromId, toId, System.currentTimeMillis() / 1000)
         reference.setValue(chatMessage)
@@ -102,22 +109,9 @@ class ChatLogActivity : AppCompatActivity() {
             }
     }
 
-    private fun setupDummyData(){
-        val adapter = GroupAdapter<GroupieViewHolder>()
-
-        adapter.add(ChatFromItem("FROM MESSSSSSSAGE"))
-        adapter.add(ChatToItem("TO MESSSSSSAAAGE\nMESSSSSAGE"))
-        adapter.add(ChatFromItem("FROM MESSSSSSSAGE"))
-        adapter.add(ChatToItem("TO MESSSSSSAAAGE\nMESSSSSAGE"))
-        adapter.add(ChatFromItem("FROM MESSSSSSSAGE"))
-        adapter.add(ChatToItem("TO MESSSSSSAAAGE\nMESSSSSAGE"))
-
-        recyclerview_chat_log.adapter = adapter
-    }
-
 }
 
-class ChatFromItem(val text: String): Item<GroupieViewHolder>() {
+class ChatFromItem(val text: String, val user: User): Item<GroupieViewHolder>() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.textview_to_row.text = text
     }
@@ -126,7 +120,7 @@ class ChatFromItem(val text: String): Item<GroupieViewHolder>() {
     }
 }
 
-class ChatToItem(val text: String): Item<GroupieViewHolder>() {
+class ChatToItem(val text: String, val user: User?): Item<GroupieViewHolder>() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.textview_to_row.text = text
     }
