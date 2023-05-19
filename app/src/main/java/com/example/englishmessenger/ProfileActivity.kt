@@ -39,7 +39,7 @@ class ProfileActivity: AppCompatActivity() {
             startActivity(intent)
         }
 
-        btnChatLogTest.setOnClickListener {
+        chats_text.setOnClickListener {
             val intent = Intent(this, LatestMessagesActivity::class.java)
             startActivity(intent)
         }

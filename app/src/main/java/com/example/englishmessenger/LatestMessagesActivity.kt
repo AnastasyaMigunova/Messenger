@@ -6,6 +6,7 @@ import android.content.Intent
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -22,6 +23,7 @@ class LatestMessagesActivity : AppCompatActivity() {
 
     companion object{
         var currentUser: User? = null
+        val TAG = "LatestMessages"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,43 +31,24 @@ class LatestMessagesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_latest_messages)
 
         recyclerview_latest_messages.adapter = adapter
+        recyclerview_latest_messages.addItemDecoration(DividerItemDecoration(this,
+        DividerItemDecoration.VERTICAL))
 
-        //setupDummyRows()
+        adapter.setOnItemClickListener { item, view ->
+            Log.d(TAG, "123")
+            val intent = Intent(this, ChatLogActivity::class.java)
+
+            val row = item as LatestMessageRow
+
+            intent.putExtra(NewMessageActivity.USER_KEY, row.chatPartnerUser)
+            startActivity(intent)
+        }
+
         listenForLatestMessages()
 
         fetchCurrentUser()
 
         verifyUserIsLoggedIn()
-    }
-
-    class LatestMessageRow(val chatMessage: ChatLogActivity.ChatMessage): Item<GroupieViewHolder>(){
-        override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-            viewHolder.itemView.message_textview_latest_message.text = chatMessage.text
-
-            val chatPartnerId: String
-            if (chatMessage.fromId == FirebaseAuth.getInstance().uid){
-                chatPartnerId = chatMessage.toId
-            } else {
-                chatPartnerId = chatMessage.fromId
-            }
-
-            val ref = FirebaseDatabase.getInstance().getReference("/usersKotlin/$chatPartnerId")
-            ref.addListenerForSingleValueEvent(object: ValueEventListener{
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val user = snapshot.getValue(User::class.java)
-                    viewHolder.itemView.username_textview_latest_message.text = user?.username
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-
-                }
-            })
-
-
-        }
-        override fun getLayout(): Int {
-            return R.layout.latest_message_row
-        }
     }
 
     val latestMessagesMap = HashMap<String,ChatLogActivity.ChatMessage>()
@@ -106,14 +89,7 @@ class LatestMessagesActivity : AppCompatActivity() {
     }
 
     val adapter = GroupAdapter<GroupieViewHolder>()
-//    private fun setupDummyRows(){
-//
-//        adapter.add(LatestMessageRow())
-//        adapter.add(LatestMessageRow())
-//        adapter.add(LatestMessageRow())
-//
-//
-//    }
+
 
     private fun fetchCurrentUser(){
         val uid = FirebaseAuth.getInstance().uid
