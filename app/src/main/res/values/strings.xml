@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">EnglishMessenger</string>
+    <string name="TestName">Test</string>
+    <string name="QuestionText" >question</string>
+    <string name="Answer1Btn" >First answer</string>
+    <string name="Answer3Btn" >Third answer</string>
+    <string name="Answer4Btn" >Fourth answer</string>
+    <string name="ConfirmBtn" >Confirm</string>
+    <string name="Answer2Btn" >Second answer</string>
 </resources>

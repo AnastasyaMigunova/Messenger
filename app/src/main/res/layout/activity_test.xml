@@ -4,17 +4,160 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#A782E8">
+    android:background="#FFFAFB">
+
+
+    <TextView
+        android:id="@+id/QuestionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/QuestionText"
+        android:textColor="#4E104A"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.213" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/Answer1btn"
+        android:layout_width="300dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="240dp"
+        android:background="@drawable/rounded_button"
+        android:backgroundTint="@color/light_purple"
+        android:text="@string/Answer1Btn"
+        android:textColor="#4E104A"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/Answer2btn"
+        android:layout_width="300dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/rounded_button"
+        android:backgroundTint="@color/light_purple"
+        android:text="@string/Answer2Btn"
+        android:textColor="#4E104A"
+        app:layout_constraintEnd_toEndOf="@+id/Answer1btn"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/Answer1btn"
+        app:layout_constraintTop_toBottomOf="@+id/Answer1btn"
+        tools:ignore="TextContrastCheck" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/Answer3btn"
+        android:layout_width="300dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/rounded_button"
+        android:backgroundTint="@color/light_purple"
+        android:text="@string/Answer3Btn"
+        android:textColor="#4E104A"
+        app:layout_constraintEnd_toEndOf="@+id/Answer1btn"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/Answer1btn"
+        app:layout_constraintTop_toBottomOf="@+id/Answer2btn"
+        tools:ignore="TextContrastCheck" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/Answer4btn"
+        android:layout_width="300dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/rounded_button"
+        android:backgroundTint="@color/light_purple"
+        android:contentDescription="@string/Answer1Btn"
+        android:text="@string/Answer4Btn"
+        android:textColor="#4E104A"
+        app:layout_constraintEnd_toEndOf="@+id/Answer1btn"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/Answer1btn"
+        app:layout_constraintTop_toBottomOf="@+id/Answer3btn"
+        tools:ignore="TextContrastCheck" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/ConfirmBtn"
+        android:layout_width="300dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/active_button"
+        android:backgroundTint="@color/dark_purple"
+        android:text="@string/ConfirmBtn"
+        android:textColor="#FFDCF2"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.953" />
+
+    <ProgressBar
+        android:id="@+id/TestProgress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="300dp"
+        android:layout_height="7dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="8dp"
+        android:max="60"
+        android:progress="0"
+        android:progressDrawable="@drawable/rounded_progress_bar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.135" />
+
+    <TextView
+        android:id="@+id/warningTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#4E104A"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/ConfirmBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Answer4btn"
+        app:layout_constraintVertical_bias="0.262" />
+
+    <TextView
+        android:id="@+id/resTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="162dp"
-        android:layout_marginTop="47dp"
-        android:layout_marginEnd="186dp"
-        android:text="для теста"
+        android:layout_marginStart="29dp"
+        android:layout_marginEnd="342dp"
+        android:layout_marginBottom="670dp"
+        android:text="Back"
+        android:textColor="#4E104A"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -27,7 +27,6 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".TestActivity" />
         <activity android:name=".TrainingActivity" />
-        <activity android:name=".LatestMessagesActivity" />
     </application>
 
 </manifest>
