@@ -3,6 +3,7 @@ package com.example.englishmessenger
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -10,6 +11,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import com.xwray.groupie.GroupieAdapter;
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.activity_chat_log.*
 import kotlinx.android.synthetic.main.chat_to_row.view.*
@@ -22,8 +24,6 @@ class ChatLogActivity : AppCompatActivity() {
     }
 
     val adapter = GroupAdapter<GroupieViewHolder>()
-
-    var toUser: User? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_log)
@@ -31,8 +31,8 @@ class ChatLogActivity : AppCompatActivity() {
         recyclerview_chat_log.adapter = adapter
 
         //val username = intent.getStringExtra(NewMessageActivity.USER_KEY)
-        toUser = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
-        supportActionBar?.title =  toUser?.username
+        val user = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
+        supportActionBar?.title =  user?.username
 
         //setupDummyData()
         listenForMessages()
@@ -45,9 +45,7 @@ class ChatLogActivity : AppCompatActivity() {
     }
 
     private fun listenForMessages(){
-        val fromId = FirebaseAuth.getInstance().uid
-        val toId = toUser?.uid
-        val ref = FirebaseDatabase.getInstance().getReference("/user-messageKotlin/$fromId/$toId")
+        val ref = FirebaseDatabase.getInstance().getReference("/messageKotlin")
 
         ref.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
@@ -57,14 +55,11 @@ class ChatLogActivity : AppCompatActivity() {
                     Log.d(TAG, chatMessage.text)
 
                     if (chatMessage.fromId == FirebaseAuth.getInstance().uid){
-                        val currentUser= LatestMessagesActivity.currentUser ?: return
-                        adapter.add(ChatFromItem(chatMessage.text, currentUser))
+                        adapter.add(ChatFromItem(chatMessage.text))
                     } else {
-                        adapter.add(ChatToItem(chatMessage.text, toUser!!))
+                        adapter.add(ChatToItem(chatMessage.text))
                     }
                 }
-
-                recyclerview_chat_log.scrollToPosition(adapter.itemCount - 1)
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
@@ -98,35 +93,31 @@ class ChatLogActivity : AppCompatActivity() {
 
         if(fromId == null) return
 
-        //val reference = FirebaseDatabase.getInstance().getReference("/messageKotlin").push()
-        val reference = FirebaseDatabase.getInstance().getReference("/user-messageKotlin/$fromId/$toId")
-            .push()
-
-        val toReference = FirebaseDatabase.getInstance().getReference("/user-messageKotlin/$toId/$fromId")
-            .push()
+        val reference = FirebaseDatabase.getInstance().getReference("/messageKotlin").push()
 
         val chatMessage = ChatMessage(reference.key!!, text, fromId, toId, System.currentTimeMillis() / 1000)
         reference.setValue(chatMessage)
             .addOnSuccessListener {
                 Log.d(TAG, "Saved our chat message: ${reference.key}")
-                edittext_chat_log.text.clear()
-                recyclerview_chat_log.scrollToPosition(adapter.itemCount - 1)
             }
+    }
 
-        toReference.setValue(chatMessage)
+    private fun setupDummyData(){
+        val adapter = GroupAdapter<GroupieViewHolder>()
 
-        val latestMessageRef = FirebaseDatabase.getInstance()
-            .getReference("/latest-kotlinMessages/$fromId/$toId")
-        latestMessageRef.setValue(chatMessage)
+        adapter.add(ChatFromItem("FROM MESSSSSSSAGE"))
+        adapter.add(ChatToItem("TO MESSSSSSAAAGE\nMESSSSSAGE"))
+        adapter.add(ChatFromItem("FROM MESSSSSSSAGE"))
+        adapter.add(ChatToItem("TO MESSSSSSAAAGE\nMESSSSSAGE"))
+        adapter.add(ChatFromItem("FROM MESSSSSSSAGE"))
+        adapter.add(ChatToItem("TO MESSSSSSAAAGE\nMESSSSSAGE"))
 
-        val latestMessageToRef = FirebaseDatabase.getInstance()
-            .getReference("/latest-kotlinMessages/$toId/$fromId")
-        latestMessageToRef.setValue(chatMessage)
+        recyclerview_chat_log.adapter = adapter
     }
 
 }
 
-class ChatFromItem(val text: String, val user: User): Item<GroupieViewHolder>() {
+class ChatFromItem(val text: String): Item<GroupieViewHolder>() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.textview_to_row.text = text
     }
@@ -135,7 +126,7 @@ class ChatFromItem(val text: String, val user: User): Item<GroupieViewHolder>() 
     }
 }
 
-class ChatToItem(val text: String, val user: User?): Item<GroupieViewHolder>() {
+class ChatToItem(val text: String): Item<GroupieViewHolder>() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.textview_to_row.text = text
     }

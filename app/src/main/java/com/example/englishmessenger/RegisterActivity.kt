@@ -1,18 +1,20 @@
 package com.example.englishmessenger
 
-import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.nfc.Tag
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,9 +23,6 @@ class RegisterActivity : AppCompatActivity() {
 
         RegisterButton.setOnClickListener {
             performRegister()
-            val intent = Intent(this, ProfileActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            startActivity(intent)
         }
         AlreadyRegister.setOnClickListener {
             Log.d("RegisterActivity", "Try to show login activity")
@@ -41,7 +40,7 @@ class RegisterActivity : AppCompatActivity() {
             Toast.makeText(this, "Please enter text in email/password", Toast.LENGTH_SHORT).show()
             return
         }
-
+        
         Log.d("RegisterActivity", "Email is: " + email)
         Log.d("RegisterActivity", "Password: $password")
 
@@ -50,12 +49,15 @@ class RegisterActivity : AppCompatActivity() {
             .addOnCompleteListener {
                 if(!it.isSuccessful) return@addOnCompleteListener
                 Log.d("Main", "Successfully created user with uid: ${it.result.user?.uid}")
+                saveUserToFirebaseDatabase()
+                val intent = Intent(this, ProfileActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(intent)
             }
             .addOnFailureListener {
                 Log.d("Main", "Failed to create user: ${it.message}")
-                Toast.makeText(this, "Please enter text in email/password", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Failed to create user: ${it.message}", Toast.LENGTH_SHORT).show()
             }
-        saveUserToFirebaseDatabase()
     }
 
     private fun saveUserToFirebaseDatabase() {

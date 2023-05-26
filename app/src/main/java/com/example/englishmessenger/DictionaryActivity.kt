@@ -7,7 +7,6 @@ import com.example.englishmessenger.databinding.ActivityDictionaryBinding
 import com.example.englishmessenger.retrofit.LanguagetoolApi
 import com.example.englishmessenger.retrofit.RapidApi
 import com.example.englishmessenger.retrofit.RapidPostClass
-import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_dictionary.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -41,7 +40,7 @@ class DictionaryActivity : AppCompatActivity() {
 
         binding.buttonTranslate.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
-                val NewText = rapidApi.transText("ru", "en", binding.editTextEng.text.toString())
+                val NewText = rapidApi.transText("en", "ru", binding.editTextEng.text.toString())
                 runOnUiThread {
                     textViewRus.text = NewText.data.translatedText
                 }
